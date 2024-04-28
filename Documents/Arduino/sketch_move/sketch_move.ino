@@ -10,12 +10,12 @@
 
 
 //MAX30100 HeartRate Sensor
-/*#include <Wire.h>
+#include <Wire.h>
 #include "MAX30100_PulseOximeter.h"
 PulseOximeter pox;
 #define REPORTING_PERIOD_MS     1000
 uint32_t tsLastReport = 0;
-*/
+
 //DHT11 Humidity Sesnor
 #include <DHT11.h>
 DHT11 dht11(4);
@@ -34,11 +34,11 @@ int IRSensor = 5;
 int LED = 13; 
 
 //Function For BeatDetected
-/*void onBeatDetected()
+void onBeatDetected()
 {
     Serial.println("Beat!");
 }
-*/
+
 
 
 String command;             //String to store app command state.
@@ -87,7 +87,7 @@ void setup() {
   server.begin();
 
 
-  /*  Serial.print("Initializing pulse oximeter..");
+    Serial.print("Initializing pulse oximeter..");
     if (!pox.begin()) {
         Serial.println("FAILED");
         for(;;);
@@ -95,7 +95,7 @@ void setup() {
         Serial.println("SUCCESS");
     }
        pox.setOnBeatDetectedCallback(onBeatDetected);
-*/
+
    MyServo.attach(26);
 
   //IR sensor
@@ -218,7 +218,7 @@ void loop() {
     delay(1000);
 
 //MAX30100 HeartRate Sensor
-  /*  pox.update();
+   pox.update();
     if (millis() - tsLastReport > REPORTING_PERIOD_MS) 
     {
         Serial.print("Heart rate:");
@@ -228,7 +228,7 @@ void loop() {
         Serial.println("%");
  tsLastReport = millis();
 }
-*/
+
  // Ultrasonic Sensor
   int distance_cm = ultrasonic.read(); // Read distance in centimeters
   Serial.print("UltraSonic Sensor: ");
