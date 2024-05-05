@@ -45,8 +45,8 @@ String command;             //String to store app command state.
 int speedCar = 800;         // 400 - 1023.
 int speed_Coeff = 3;
 
-const char* ssid = "maro";
-const char* password = "marwanh#76";
+const char* ssid = "Omar's iPhone ";
+const char* password = "omar1234";
 
 AsyncWebServer server(80);
 
@@ -302,4 +302,27 @@ void HTTP_handleRoot(AsyncWebServerRequest *request) {
   else if (command == "S") stopRobot();
 
   request->send(200, "text/html", "");
+
+  String sensorData = "{";
+  int humidity = dht11.readHumidity();
+  if (humidity != DHT11::ERROR_CHECKSUM && humidity != DHT11::ERROR_TIMEOUT) {
+    sensorData += "\"humidity\": " + String(humidity) + ",";
+  }
+
+  sensorData += "\"heart_rate\": " + String(pox.getHeartRate()) + ",";
+  sensorData += "\"spo2\": " + String(pox.getSpO2()) + ",";
+
+  int distance_cm = ultrasonic.read();
+  sensorData += "\"distance\": " + String(distance_cm) + ",";
+
+  int sensorStatus = digitalRead(IRSensor);
+  if (sensorStatus == HIGH) {
+    sensorData += "\"motion\": \"ended\"";
+  } else {
+    sensorData += "\"motion\": \"detected\"";
+  }
+
+  sensorData += "}";
+
+  request->send(200, "application/json", sensorData);
 }
